@@ -4,6 +4,8 @@ Server Client Projekt für eine Geodateninfrastruktur Webportal im Rahmen des Mo
 - **Frontend:** React.js, OpenLayers und MUI
 - **Backend:** FastAPI, GeoServer
 
+GitHub Pages: https://314a.github.io/GDI_Project/
+
 ## Requirements
 
 - [Git](https://git-scm.com/)
