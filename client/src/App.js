@@ -17,13 +17,13 @@ function App() {
 
   // initialization - retrieve GeoJSON features from Mock JSON API get features from mock 
   //  GeoJson API (read from flat .json file in public directory)
-  useEffect( () => {
+  useEffect(() => {
     // Folgende URL nutzen, falls das Server Backend läuft (FastAPI)
     // fetch('http://localhost:8000/points/')
     // Test Geojson Datei, falls das Server Backend nicht läuft (FastAPI)
     fetch('/geojson_points.json')
       .then(response => response.json())
-      .then( (fetchedFeatures) => {
+      .then((fetchedFeatures) => {
 
         // parse fetched geojson into OpenLayers features
         //  use options to convert feature from EPSG:4326 to EPSG:3857
