@@ -6,7 +6,7 @@ Server Client Projekt für eine Geodateninfrastruktur Webportal im Rahmen des Mo
 
 GitHub Pages: https://314a.github.io/GDI_Project/
 
-Getestet mit Node version 18.15.0, 16.19.0, openlayers 7.3.0, 6.4.3
+Getestet mit Node version 20.11.1, 18.15.0, 16.19.0, openlayers 9.1.0, 7.3.0, 6.4.3
 
 ## Requirements
 
@@ -34,7 +34,7 @@ Füge die Git web URL `https://github.com/314a/GDI_Project.git` ein und bestäti
 ``` shell
 cd client
 # aktiviere node.js (falls nvm genutzt wird) 
-# nvm use 16.19.1 
+# nvm use 20.11.1
 # install all the node.js dependencies
 npm install
 # node Projekt ausführen
