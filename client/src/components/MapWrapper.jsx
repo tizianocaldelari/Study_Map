@@ -4,6 +4,7 @@ import View from 'ol/View'
 import GeoJSON from 'ol/format/GeoJSON';
 import 'ol/ol.css';
 import Select from 'ol/interaction/Select';
+import { click } from 'ol/events/condition'
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
 
@@ -34,8 +35,9 @@ function MapWrapper({ features, setFeatures, selectedFeatureID, setSelectedFeatu
         initFeatureLayer.getSource().on('featuresloadend', (evt) => {
             setFeatures(evt.target.getFeatures())
         })
-        // add interaction
-        const select = new Select();
+        // add interaction, specify "click" instead of default "singleclick" because
+        // the latter introduces 250ms delay to check for doubleclick
+        const select = new Select({ condition: click });
         select.on('select', function (e) {
             if (e.selected.length) {
                 setSelectedFeatureID(e.selected[0].getId())
@@ -43,7 +45,7 @@ function MapWrapper({ features, setFeatures, selectedFeatureID, setSelectedFeatu
         });
         mapRef.current.addInteraction(select);
         setSelectInteraction(select);
-    }, [])
+    }, [setFeatures, setSelectedFeatureID])
 
     // update featureLayer if features prop changes
     useEffect(() => {
