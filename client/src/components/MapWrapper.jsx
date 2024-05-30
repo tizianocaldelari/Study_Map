@@ -116,8 +116,8 @@ const MapWrapper = forwardRef((props, ref) => {
             marker.setStyle(new Style({
                 image: new CircleStyle({
                     radius: 7,
-                    fill: new Fill({ color: 'white' }),
-                    stroke: new Stroke({ color: 'black', width: 3 })
+                    fill: new Fill({ color: 'rgb(50, 140, 255)' }),
+                    stroke: new Stroke({ color: 'rgb(100, 0, 200)', width: 3 })
                 })
             }));
 
