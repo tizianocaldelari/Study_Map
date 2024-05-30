@@ -1,445 +1,808 @@
-import geojson
-
-# Updated data with addresses and converted coordinates
-data = [
-    {
-        "University": "ETH Zurich",
-        "Type": "University",
-        "Campus": "Main",
-        "Departments": "Architecture, Civil, Environmental and Geomatic Engineering, Mechanical and Process Engineering, Information Technology and Electrical Engineering, Computer Science, Materials, Physics, Chemistry and Applied Biosciences, Biology, Mathematics, Management, Technology, and Economics, Humanities, Social and Political Sciences, Earth Sciences, Health Sciences and Technology",
-        "Easting (LV95)": 2683196.17,
-        "Northing (LV95)": 1247911.63
+{
+    "type": "FeatureCollection",
+    "name": "Study_Map",
+    "crs": {
+      "type": "name",
+      "properties": {
+        "name": "urn:ogc:def:crs:EPSG::2056"
+      }
     },
-    {
-        "University": "ETH Zurich",
-        "Type": "University",
-        "Campus": "Hönggerberg",
-        "Departments": "Architecture, Civil Engineering, Environmental Engineering, Materials Science, Mechanical Engineering, Physics",
-        "Easting (LV95)": 2678122.29,
-        "Northing (LV95)": 1244380.34
-    },
-    {
-        "University": "University of Zurich",
-        "Type": "University",
-        "Campus": "Main",
-        "Departments": "Theology, Law, Business, Economics, and Informatics, Medicine, Veterinary Medicine, Arts and Social Sciences, Science",
-        "Easting (LV95)": 2683856.91,
-        "Northing (LV95)": 1247085.94
-    },
-    {
-        "University": "University of Zurich",
-        "Type": "University",
-        "Campus": "Irchel",
-        "Departments": "Science, Medicine",
-        "Easting (LV95)": 2679785.00,
-        "Northing (LV95)": 1247900.00
-    },
-    {
-        "University": "University of Zurich",
-        "Type": "University",
-        "Campus": "Oerlikon",
-        "Departments": "Dentistry",
-        "Easting (LV95)": 2680600.00,
-        "Northing (LV95)": 1248000.00
-    },
-    {
-        "University": "University of Basel",
-        "Type": "University",
-        "Campus": "Main",
-        "Departments": "Theology, Law, Medicine, Humanities and Social Sciences, Sciences, Business and Economics, Psychology",
-        "Easting (LV95)": 2617400.00,
-        "Northing (LV95)": 1267400.00
-    },
-    {
-        "University": "University of Basel",
-        "Type": "University",
-        "Campus": "Rosental",
-        "Departments": "Biosystems Science and Engineering",
-        "Easting (LV95)": 2618000.00,
-        "Northing (LV95)": 1267800.00
-    },
-    {
-        "University": "University of Basel",
-        "Type": "University",
-        "Campus": "Petersplatz",
-        "Departments": "Social Sciences",
-        "Easting (LV95)": 2618500.00,
-        "Northing (LV95)": 1267200.00
-    },
-    {
-        "University": "University of Bern",
-        "Type": "University",
-        "Campus": "Main",
-        "Departments": "Theology, Law, Business, Economics, and Social Sciences, Medicine, Veterinary Medicine, Humanities, Science",
-        "Easting (LV95)": 2600000.00,
-        "Northing (LV95)": 1200000.00
-    },
-    {
-        "University": "University of Bern",
-        "Type": "University",
-        "Campus": "Inselspital",
-        "Departments": "Clinical Medicine",
-        "Easting (LV95)": 2600500.00,
-        "Northing (LV95)": 1200300.00
-    },
-    {
-        "University": "University of Lausanne",
-        "Type": "University",
-        "Campus": "Main",
-        "Departments": "Theology and Religious Studies, Law, Criminal Justice, and Public Administration, Arts, Social and Political Sciences, Business and Economics (HEC Lausanne), Geosciences and Environment, Biology and Medicine",
-        "Easting (LV95)": 2537297.16,
-        "Northing (LV95)": 1151865.61
-    },
-    {
-        "University": "University of Geneva",
-        "Type": "University",
-        "Campus": "Main",
-        "Departments": "Theology, Law, Psychology and Educational Sciences, Translation and Interpreting, Social Sciences, Economics and Management, Arts, Science, Medicine",
-        "Easting (LV95)": 2481945.45,
-        "Northing (LV95)": 1113832.41
-    },
-    {
-        "University": "University of Geneva",
-        "Type": "University",
-        "Campus": "Campus Biotech",
-        "Departments": "Biotechnology, Neurosciences",
-        "Easting (LV95)": 2485000.00,
-        "Northing (LV95)": 1114000.00
-    },
-    {
-        "University": "University of St. Gallen",
-        "Type": "University",
-        "Campus": "Main",
-        "Departments": "Business Administration, Economics, Law, International Affairs and Political Economy, Computer Science",
-        "Easting (LV95)": 2752400.00,
-        "Northing (LV95)": 1224800.00
-    },
-    {
-        "University": "Université de Fribourg",
-        "Type": "University",
-        "Campus": "Main",
-        "Departments": "Theology, Law, Humanities, Science, Economics, and Social Sciences",
-        "Easting (LV95)": 2575500.00,
-        "Northing (LV95)": 1166000.00
-    },
-    {
-        "University": "Université de Fribourg",
-        "Type": "University",
-        "Campus": "Perolles",
-        "Departments": "Science, Medicine",
-        "Easting (LV95)": 2576000.00,
-        "Northing (LV95)": 1166200.00
-    },
-    {
-        "University": "Université de Neuchâtel",
-        "Type": "University",
-        "Campus": "Main",
-        "Departments": "Humanities and Social Sciences, Law, Economics and Business, Science",
-        "Easting (LV95)": 2550000.00,
-        "Northing (LV95)": 1180000.00
-    },
-    {
-        "University": "Zurich University of Applied Sciences (ZHAW)",
-        "Type": "University of Applied Sciences",
-        "Campus": "Winterthur",
-        "Departments": "Applied Linguistics, Applied Psychology, Architecture, Design, and Civil Engineering, Engineering, Health Professions, Life Sciences and Facility Management, Management and Law, School of Social Work",
-        "Easting (LV95)": 2685800.00,
-        "Northing (LV95)": 1248500.00
-    },
-    {
-        "University": "Zurich University of Applied Sciences (ZHAW)",
-        "Type": "University of Applied Sciences",
-        "Campus": "Wädenswil",
-        "Departments": "Life Sciences and Facility Management",
-        "Easting (LV95)": 2681200.00,
-        "Northing (LV95)": 1249000.00
-    },
-    {
-        "University": "Zurich University of Applied Sciences (ZHAW)",
-        "Type": "University of Applied Sciences",
-        "Campus": "Zurich",
-        "Departments": "Health Professions, Social Work",
-        "Easting (LV95)": 2682000.00,
-        "Northing (LV95)": 1248000.00
-    },
-    {
-        "University": "Bern University of Applied Sciences (BFH)",
-        "Type": "University of Applied Sciences",
-        "Campus": "Main",
-        "Departments": "Architecture, Wood and Civil Engineering, Engineering and Information Technology, Health Professions, Social Work, Business, Agriculture, Forest and Food Sciences, Arts",
-        "Easting (LV95)": 2600600.00,
-        "Northing (LV95)": 1200300.00
-    },
-    {
-        "University": "Bern University of Applied Sciences (BFH)",
-        "Type": "University of Applied Sciences",
-        "Campus": "Burgdorf",
-        "Departments": "Engineering and Information Technology",
-        "Easting (LV95)": 2601000.00,
-        "Northing (LV95)": 1200400.00
-    },
-    {
-        "University": "Bern University of Applied Sciences (BFH)",
-        "Type": "University of Applied Sciences",
-        "Campus": "Biel",
-        "Departments": "Architecture, Wood and Civil Engineering",
-        "Easting (LV95)": 2601500.00,
-        "Northing (LV95)": 1200600.00
-    },
-    {
-        "University": "Bern University of Applied Sciences (BFH)",
-        "Type": "University of Applied Sciences",
-        "Campus": "Zollikofen",
-        "Departments": "Agriculture, Forest and Food Sciences",
-        "Easting (LV95)": 2602000.00,
-        "Northing (LV95)": 1200800.00
-    },
-    {
-        "University": "Bern University of Applied Sciences (BFH)",
-        "Type": "University of Applied Sciences",
-        "Campus": "Bern",     
-		"Departments": "Health Professions, Social Work, Business",
-        "Easting (LV95)": 2602400.00,
-        "Northing (LV95)": 1201000.00
-    },
-    {
-        "University": "Lucerne University of Applied Sciences and Arts (HSLU)",
-        "Type": "University of Applied Sciences",
-        "Campus": "Main",
-        "Departments": "Engineering and Architecture, Business, Information Technology, Social Work, Art and Design, Music, Health",
-        "Easting (LV95)": 2670300.00,
-        "Northing (LV95)": 1210500.00
-    },
-    {
-        "University": "Lucerne University of Applied Sciences and Arts (HSLU)",
-        "Type": "University of Applied Sciences",
-        "Campus": "Emmenbrücke",
-        "Departments": "Engineering and Architecture, Art and Design",
-        "Easting (LV95)": 2669800.00,
-        "Northing (LV95)": 1210400.00
-    },
-    {
-        "University": "Lucerne University of Applied Sciences and Arts (HSLU)",
-        "Type": "University of Applied Sciences",
-        "Campus": "Horw",
-        "Departments": "Engineering",
-        "Easting (LV95)": 2669500.00,
-        "Northing (LV95)": 1210300.00
-    },
-    {
-        "University": "Lucerne University of Applied Sciences and Arts (HSLU)",
-        "Type": "University of Applied Sciences",
-        "Campus": "Lucerne",
-        "Departments": "Business, Information Technology, Social Work, Music, Health",
-        "Easting (LV95)": 2669200.00,
-        "Northing (LV95)": 1210200.00
-    },
-    {
-        "University": "University of Applied Sciences and Arts Northwestern Switzerland (FHNW)",
-        "Type": "University of Applied Sciences",
-        "Campus": "Main",
-        "Departments": "Applied Psychology, Architecture, Civil Engineering, and Geomatics, Art and Design, Business, Education, Engineering, Life Sciences, Music, Social Work",
-        "Easting (LV95)": 2630500.00,
-        "Northing (LV95)": 1255100.00
-    },
-    {
-        "University": "University of Applied Sciences and Arts Northwestern Switzerland (FHNW)",
-        "Type": "University of Applied Sciences",
-        "Campus": "Muttenz",
-        "Departments": "Life Sciences, Engineering, Management",
-        "Easting (LV95)": 2630900.00,
-        "Northing (LV95)": 1255200.00
-    },
-    {
-        "University": "University of Applied Sciences and Arts Northwestern Switzerland (FHNW)",
-        "Type": "University of Applied Sciences",
-        "Campus": "Brugg-Windisch",
-        "Departments": "Education, Engineering, Business",
-        "Easting (LV95)": 2631300.00,
-        "Northing (LV95)": 1255300.00
-    },
-    {
-        "University": "University of Applied Sciences and Arts Northwestern Switzerland (FHNW)",
-        "Type": "University of Applied Sciences",
-        "Campus": "Olten",
-        "Departments": "Social Work, Health, Business",
-        "Easting (LV95)": 2631700.00,
-        "Northing (LV95)": 1255400.00
-    },
-    {
-        "University": "University of Applied Sciences and Arts Northwestern Switzerland (FHNW)",
-        "Type": "University of Applied Sciences",
-        "Campus": "Aarau",
-        "Departments": "Architecture, Civil Engineering, and Geomatics",
-        "Easting (LV95)": 2632100.00,
-        "Northing (LV95)": 1255500.00
-    },
-    {
-        "University": "University of Applied Sciences Eastern Switzerland (OST)",
-        "Type": "University of Applied Sciences",
-        "Campus": "Main",
-        "Departments": "Architecture, Civil Engineering, and Spatial Development, Computer Science, Electrical Engineering, Mechanical Engineering, Health Professions, Social Work, Business Administration",
-        "Easting (LV95)": 2743700.00,
-        "Northing (LV95)": 1244200.00
-    },
-    {
-        "University": "University of Applied Sciences Eastern Switzerland (OST)",
-        "Type": "University of Applied Sciences",
-        "Campus": "Rapperswil",
-        "Departments": "Engineering, IT, Business Administration",
-        "Easting (LV95)": 2744100.00,
-        "Northing (LV95)": 1244300.00
-    },
-    {
-        "University": "University of Applied Sciences Eastern Switzerland (OST)",
-        "Type": "University of Applied Sciences",
-        "Campus": "St. Gallen",
-        "Departments": "Social Work, Health Professions",
-        "Easting (LV95)": 2744500.00,
-        "Northing (LV95)": 1244400.00
-    },
-    {
-        "University": "University of Applied Sciences Eastern Switzerland (OST)",
-        "Type": "University of Applied Sciences",
-        "Campus": "Buchs",
-        "Departments": "Engineering",
-        "Easting (LV95)": 2744900.00,
-        "Northing (LV95)": 1244500.00
-    },
-    {
-        "University": "University of Applied Sciences Western Switzerland (HES-SO)",
-        "Type": "University of Applied Sciences",
-        "Campus": "Main",
-        "Departments": "Engineering and Architecture, Business, Management, and Services, Design and Fine Arts, Health, Social Work, Music and Performing Arts",
-        "Easting (LV95)": 2483500.00,
-        "Northing (LV95)": 1112000.00
-    },
-    {
-        "University": "University of Applied Sciences Western Switzerland (HES-SO)",
-        "Type": "University of Applied Sciences",
-        "Campus": "Sion",
-        "Departments": "Engineering and Architecture, Health",
-        "Easting (LV95)": 2483900.00,
-        "Northing (LV95)": 1112100.00
-    },
-    {
-        "University": "University of Applied Sciences Western Switzerland (HES-SO)",
-        "Type": "University of Applied Sciences",
-        "Campus": "Fribourg",
-        "Departments": "Social Work, Engineering",
-        "Easting (LV95)": 2484300.00,
-        "Northing (LV95)": 1112200.00
-    },
-    {
-        "University": "University of Applied Sciences Western Switzerland (HES-SO)",
-        "Type": "University of Applied Sciences",
-        "Campus": "Lausanne",
-        "Departments": "Business, Engineering",
-        "Easting (LV95)": 2484700.00,
-        "Northing (LV95)": 1112300.00
-    },
-    {
-        "University": "University of Applied Sciences Western Switzerland (HES-SO)",
-        "Type": "University of Applied Sciences",
-        "Campus": "Geneva",
-        "Departments": "Music and Performing Arts",
-        "Easting (LV95)": 2485100.00,
-        "Northing (LV95)": 1112400.00
-    },
-    {
-        "University": "Zurich University of the Arts (ZHdK)",
-        "Type": "University of Applied Sciences",
-        "Campus": "Main",
-        "Departments": "Design, Film, Fine Arts, Music, Performing Arts, Transdisciplinary Studies",
-        "Easting (LV95)": 2685200.00,
-        "Northing (LV95)": 1249000.00
-    },
-    {
-        "University": "Scuola universitaria professionale della Svizzera italiana (SUPSI)",
-        "Type": "University of Applied Sciences",
-        "Campus": "Main",
-        "Departments": "Construction and Design, Business and Social Sciences, Health, Music, Informatics, Engineering and Information Technology",
-        "Easting (LV95)": 2727000.00,
-        "Northing (LV95)": 1098000.00
-    },
-    {
-        "University": "Pedagogic University of Zurich (PHZH)",
-        "Type": "Pedagogic University",
-        "Campus": "Main",
-        "Departments": "Early Childhood Education, Primary Education, Secondary Education I and II, Special Education",
-        "Easting (LV95)": 2684100.00,
-        "Northing (LV95)": 1247600.00
-    },
-    {
-        "University": "University of Teacher Education Bern (PHBern)",
-        "Type": "Pedagogic University",
-        "Campus": "Main",
-        "Departments": "Pre-Primary and Primary Education, Secondary Education I, Special Needs Education",
-        "Easting (LV95)": 2600400.00,
-        "Northing (LV95)": 1200300.00
-    },
-    {
-        "University": "University of Teacher Education Lucerne (PHLU)",
-        "Type": "Pedagogic University",
-        "Campus": "Main",
-        "Departments": "Primary Education, Secondary Education I, Special Education",
-        "Easting (LV95)": 2670500.00,
-        "Northing (LV95)": 1210200.00
-    },
-    {
-        "University": "University of Teacher Education St. Gallen (PHSG)",
-        "Type": "Pedagogic University",
-		        "Campus": "Main",
-        "Departments": "Kindergarten and Primary Education, Secondary Education I",
-        "Easting (LV95)": 2743400.00,
-        "Northing (LV95)": 1244700.00
-    },
-    {
-        "University": "University of Teacher Education Thurgau (PHTG)",
-        "Type": "Pedagogic University",
-        "Campus": "Main",
-        "Departments": "Early Childhood Education, Primary Education, Secondary Education I",
-        "Easting (LV95)": 2751400.00,
-        "Northing (LV95)": 1245200.00
-    },
-    {
-        "University": "University of Teacher Education Valais (HEP-VS)",
-        "Type": "Pedagogic University",
-        "Campus": "Main",
-        "Departments": "Primary Education, Secondary Education I, Special Education",
-        "Easting (LV95)": 2605200.00,
-        "Northing (LV95)": 1125600.00
-    },
-    {
-        "University": "University of Teacher Education Fribourg (HEP-FR)",
-        "Type": "Pedagogic University",
-        "Campus": "Main",
-        "Departments": "Primary Education, Secondary Education I, Special Education",
-        "Easting (LV95)": 2575500.00,
-        "Northing (LV95)": 1166000.00
-    },
-    {
-        "University": "University of Teacher Education Lausanne (HEP-VD)",
-        "Type": "Pedagogic University",
-        "Campus": "Main",
-        "Departments": "Primary Education, Secondary Education I, Special Education",
-        "Easting (LV95)": 2537100.00,
-        "Northing (LV95)": 1151400.00
-    }
-]
-
-# Creating a GeoJSON feature collection
-features = []
-for entry in data:
-    feature = geojson.Feature(
-        geometry=geojson.Point((entry["Easting (LV95)"], entry["Northing (LV95)"])),
-        properties={
-            "University": entry["University"],
-            "Type": entry["Type"],
-            "Campus": entry["Campus"],
-            "Departments": entry["Departments"]
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "ETH Zurich",
+          "Type": "University",
+          "Campus": "Main",
+          "Departments": "Architecture, Civil, Environmental and Geomatic Engineering, Mechanical and Process Engineering, Information Technology and Electrical Engineering, Computer Science, Materials, Physics, Chemistry and Applied Biosciences, Biology, Mathematics, Management, Technology, and Economics, Humanities, Social and Political Sciences, Earth Sciences, Health Sciences and Technology",
+          "Easting (LV95)": 2683196.17,
+          "Northing (LV95)": 1247911.63
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2683196.17, 1247911.63]
         }
-    )
-    features.append(feature)
-
-feature_collection = geojson.FeatureCollection(features)
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "ETH Zurich",
+          "Type": "University",
+          "Campus": "Hönggerberg",
+          "Departments": "Architecture, Civil Engineering, Environmental Engineering, Materials Science, Mechanical Engineering, Physics",
+          "Easting (LV95)": 2678122.29,
+          "Northing (LV95)": 1244380.34
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2678122.29, 1244380.34]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Zurich",
+          "Type": "University",
+          "Campus": "Main",
+          "Departments": "Theology, Law, Business, Economics, and Informatics, Medicine, Veterinary Medicine, Arts and Social Sciences, Science",
+          "Easting (LV95)": 2683856.91,
+          "Northing (LV95)": 1247085.94
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2683856.91, 1247085.94]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Zurich",
+          "Type": "University",
+          "Campus": "Irchel",
+          "Departments": "Science, Medicine",
+          "Easting (LV95)": 2679785.00,
+          "Northing (LV95)": 1247900.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2679785.00, 1247900.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Zurich",
+          "Type": "University",
+          "Campus": "Oerlikon",
+          "Departments": "Dentistry",
+          "Easting (LV95)": 2680600.00,
+          "Northing (LV95)": 1248000.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2680600.00, 1248000.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Basel",
+          "Type": "University",
+          "Campus": "Main",
+          "Departments": "Theology, Law, Medicine, Humanities and Social Sciences, Sciences, Business and Economics, Psychology",
+          "Easting (LV95)": 2617400.00,
+          "Northing (LV95)": 1267400.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2617400.00, 1267400.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Basel",
+          "Type": "University",
+          "Campus": "Rosental",
+          "Departments": "Biosystems Science and Engineering",
+          "Easting (LV95)": 2618000.00,
+          "Northing (LV95)": 1267800.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2618000.00, 1267800.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Basel",
+          "Type": "University",
+          "Campus": "Petersplatz",
+          "Departments": "Social Sciences",
+          "Easting (LV95)": 2618500.00,
+          "Northing (LV95)": 1267200.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2618500.00, 1267200.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Bern",
+          "Type": "University",
+          "Campus": "Main",
+          "Departments": "Theology, Law, Business, Economics, and Social Sciences, Medicine, Veterinary Medicine, Humanities, Science",
+          "Easting (LV95)": 2600000.00,
+          "Northing (LV95)": 1200000.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2600000.00, 1200000.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Bern",
+          "Type": "University",
+          "Campus": "Inselspital",
+          "Departments": "Clinical Medicine",
+          "Easting (LV95)": 2600500.00,
+          "Northing (LV95)": 1200300.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2600500.00, 1200300.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Lausanne",
+          "Type": "University",
+          "Campus": "Main",
+          "Departments": "Theology and Religious Studies, Law, Criminal Justice, and Public Administration, Arts, Social and Political Sciences, Business and Economics (HEC Lausanne), Geosciences and Environment, Biology and Medicine",
+          "Easting (LV95)": 2537297.16,
+          "Northing (LV95)": 1151865.61
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2537297.16, 1151865.61]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Geneva",
+          "Type": "University",
+          "Campus": "Main",
+          "Departments": "Theology, Law, Psychology and Educational Sciences, Translation and Interpreting, Social Sciences, Economics and Management, Arts, Science, Medicine",
+          "Easting (LV95)": 2481945.45,
+          "Northing (LV95)": 1113832.41
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2481945.45, 1113832.41]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Geneva",
+          "Type": "University",
+          "Campus": "Campus Biotech",
+          "Departments": "Biotechnology, Neurosciences",
+          "Easting (LV95)": 2485000.00,
+          "Northing (LV95)": 1114000.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2485000.00, 1114000.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of St. Gallen",
+          "Type": "University",
+          "Campus": "Main",
+          "Departments": "Business Administration, Economics, Law, International Affairs and Political Economy, Computer Science",
+          "Easting (LV95)": 2752400.00,
+          "Northing (LV95)": 1224800.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2752400.00, 1224800.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "Université de Fribourg",
+          "Type": "University",
+          "Campus": "Main",
+          "Departments": "Theology, Law, Humanities, Science, Economics, and Social Sciences",
+          "Easting (LV95)": 2575500.00,
+          "Northing (LV95)": 1166000.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2575500.00, 1166000.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "Université de Fribourg",
+          "Type": "University",
+          "Campus": "Perolles",
+          "Departments": "Science, Medicine",
+          "Easting (LV95)": 2576000.00,
+          "Northing (LV95)": 1166200.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2576000.00, 1166200.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "Université de Neuchâtel",
+          "Type": "University",
+          "Campus": "Main",
+          "Departments": "Humanities and Social Sciences, Law, Economics and Business, Science",
+          "Easting (LV95)": 2550000.00,
+          "Northing (LV95)": 1180000.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2550000.00, 1180000.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "Zurich University of Applied Sciences (ZHAW)",
+          "Type": "University of Applied Sciences",
+          "Campus": "Winterthur",
+          "Departments": "Applied Linguistics, Applied Psychology, Architecture, Design, and Civil Engineering, Engineering, Health Professions, Life Sciences and Facility Management, Management and Law, School of Social Work",
+          "Easting (LV95)": 2685800.00,
+          "Northing (LV95)": 1248500.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2685800.00, 1248500.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "Zurich University of Applied Sciences (ZHAW)",
+          "Type": "University of Applied Sciences",
+          "Campus": "Wädenswil",
+          "Departments": "Life Sciences and Facility Management",
+          "Easting (LV95)": 2681200.00,
+          "Northing (LV95)": 1249000.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2681200.00, 1249000.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "Zurich University of Applied Sciences (ZHAW)",
+          "Type": "University of Applied Sciences",
+          "Campus": "Zurich",
+          "Departments": "Health Professions, Social Work",
+          "Easting (LV95)": 2682000.00,
+          "Northing (LV95)": 1248000.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2682000.00, 1248000.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "Bern University of Applied Sciences (BFH)",
+          "Type": "University of Applied Sciences",
+          "Campus": "Main",
+          "Departments": "Architecture, Wood and Civil Engineering, Engineering and Information Technology, Health Professions, Social Work, Business, Agriculture, Forest and Food Sciences, Arts",
+          "Easting (LV95)": 2600600.00,
+          "Northing (LV95)": 1200300.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2600600.00, 1200300.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "Bern University of Applied Sciences (BFH)",
+          "Type": "University of Applied Sciences",
+          "Campus": "Burgdorf",
+          "Departments": "Engineering and Information Technology",
+          "Easting (LV95)": 2601000.00,
+          "Northing (LV95)": 1200400.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2601000.00, 1200400.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "Bern University of Applied Sciences (BFH)",
+          "Type": "University of Applied Sciences",
+          "Campus": "Biel",
+          "Departments": "Architecture, Wood and Civil Engineering",
+          "Easting (LV95)": 2601500.00,
+          "Northing (LV95)": 1200600.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2601500.00, 1200600.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "Bern University of Applied Sciences (BFH)",
+          "Type": "University of Applied Sciences",
+          "Campus": "Zollikofen",
+          "Departments": "Agriculture, Forest and Food Sciences",
+          "Easting (LV95)": 2602000.00,
+          "Northing (LV95)": 1200800.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2602000.00, 1200800.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "Bern University of Applied Sciences (BFH)",
+          "Type": "University of Applied Sciences",
+          "Campus": "Bern",
+          "Departments": "Health Professions, Social Work, Business",
+          "Easting (LV95)": 2602400.00,
+          "Northing (LV95)": 1201000.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2602400.00, 1201000.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "Lucerne University of Applied Sciences and Arts (HSLU)",
+          "Type": "University of Applied Sciences",
+          "Campus": "Main",
+          "Departments": "Engineering and Architecture, Business, Information Technology, Social Work, Art and Design, Music, Health",
+          "Easting (LV95)": 2670300.00,
+          "Northing (LV95)": 1210500.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2670300.00, 1210500.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "Lucerne University of Applied Sciences and Arts (HSLU)",
+          "Type": "University of Applied Sciences",
+          "Campus": "Emmenbrücke",
+          "Departments": "Engineering and Architecture, Art and Design",
+          "Easting (LV95)": 2669800.00,
+          "Northing (LV95)": 1210400.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2669800.00, 1210400.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "Lucerne University of Applied Sciences and Arts (HSLU)",
+          "Type": "University of Applied Sciences",
+          "Campus": "Horw",
+          "Departments": "Engineering",
+          "Easting (LV95)": 2669500.00,
+          "Northing (LV95)": 1210300.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2669500.00, 1210300.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "Lucerne University of Applied Sciences and Arts (HSLU)",
+          "Type": "University of Applied Sciences",
+          "Campus": "Lucerne",
+          "Departments": "Business, Information Technology, Social Work, Music, Health",
+          "Easting (LV95)": 2669200.00,
+          "Northing (LV95)": 1210200.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2669200.00, 1210200.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Applied Sciences and Arts Northwestern Switzerland (FHNW)",
+          "Type": "University of Applied Sciences",
+          "Campus": "Main",
+          "Departments": "Applied Psychology, Architecture, Civil Engineering, and Geomatics, Art and Design, Business, Education, Engineering, Life Sciences, Music, Social Work",
+          "Easting (LV95)": 2630500.00,
+          "Northing (LV95)": 1255100.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2630500.00, 1255100.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Applied Sciences and Arts Northwestern Switzerland (FHNW)",
+          "Type": "University of Applied Sciences",
+          "Campus": "Muttenz",
+          "Departments": "Life Sciences, Engineering, Management, Geomatics",
+          "Easting (LV95)": 2615315.00,
+          "Northing (LV95)": 1264924.30
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2630900.00, 1255200.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Applied Sciences and Arts Northwestern Switzerland (FHNW)",
+          "Type": "University of Applied Sciences",
+          "Campus": "Brugg-Windisch",
+          "Departments": "Education, Engineering, Business",
+          "Easting (LV95)": 2631300.00,
+          "Northing (LV95)": 1255300.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2631300.00, 1255300.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Applied Sciences and Arts Northwestern Switzerland (FHNW)",
+          "Type": "University of Applied Sciences",
+          "Campus": "Olten",
+          "Departments": "Social Work, Health, Business",
+          "Easting (LV95)": 2631700.00,
+          "Northing (LV95)": 1255400.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2631700.00, 1255400.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Applied Sciences and Arts Northwestern Switzerland (FHNW)",
+          "Type": "University of Applied Sciences",
+          "Campus": "Aarau",
+          "Departments": "Architecture, Civil Engineering, and Geomatics",
+          "Easting (LV95)": 2632100.00,
+          "Northing (LV95)": 1255500.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2632100.00, 1255500.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Applied Sciences Eastern Switzerland (OST)",
+          "Type": "University of Applied Sciences",
+          "Campus": "Main",
+          "Departments": "Architecture, Civil Engineering, and Spatial Development, Computer Science, Electrical Engineering, Mechanical Engineering, Health Professions, Social Work, Business Administration",
+          "Easting (LV95)": 2743700.00,
+          "Northing (LV95)": 1244200.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2743700.00, 1244200.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Applied Sciences Eastern Switzerland (OST)",
+          "Type": "University of Applied Sciences",
+          "Campus": "Rapperswil",
+          "Departments": "Engineering, IT, Business Administration",
+          "Easting (LV95)": 2744100.00,
+          "Northing (LV95)": 1244300.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2744100.00, 1244300.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Applied Sciences Eastern Switzerland (OST)",
+          "Type": "University of Applied Sciences",
+          "Campus": "St. Gallen",
+          "Departments": "Social Work, Health Professions",
+          "Easting (LV95)": 2744500.00,
+          "Northing (LV95)": 1244400.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2744500.00, 1244400.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Applied Sciences Eastern Switzerland (OST)",
+          "Type": "University of Applied Sciences",
+          "Campus": "Buchs",
+          "Departments": "Engineering",
+          "Easting (LV95)": 2744900.00,
+          "Northing (LV95)": 1244500.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2744900.00, 1244500.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Applied Sciences Western Switzerland (HES-SO)",
+          "Type": "University of Applied Sciences",
+          "Campus": "Main",
+          "Departments": "Engineering and Architecture, Business, Management, and Services, Design and Fine Arts, Health, Social Work, Music and Performing Arts",
+          "Easting (LV95)": 2483500.00,
+          "Northing (LV95)": 1112000.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2483500.00, 1112000.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Applied Sciences Western Switzerland (HES-SO)",
+          "Type": "University of Applied Sciences",
+          "Campus": "Sion",
+          "Departments": "Engineering and Architecture, Health",
+          "Easting (LV95)": 2483900.00,
+          "Northing (LV95)": 1112100.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2483900.00, 1112100.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Applied Sciences Western Switzerland (HES-SO)",
+          "Type": "University of Applied Sciences",
+          "Campus": "Fribourg",
+          "Departments": "Social Work, Engineering",
+          "Easting (LV95)": 2484300.00,
+          "Northing (LV95)": 1112200.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2484300.00, 1112200.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Applied Sciences Western Switzerland (HES-SO)",
+          "Type": "University of Applied Sciences",
+          "Campus": "Lausanne",
+          "Departments": "Business, Engineering",
+          "Easting (LV95)": 2484700.00,
+          "Northing (LV95)": 1112300.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2484700.00, 1112300.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Applied Sciences Western Switzerland (HES-SO)",
+          "Type": "University of Applied Sciences",
+          "Campus": "Geneva",
+          "Departments": "Music and Performing Arts",
+          "Easting (LV95)": 2485100.00,
+          "Northing (LV95)": 1112400.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2485100.00, 1112400.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "Zurich University of the Arts (ZHdK)",
+          "Type": "University of Applied Sciences",
+          "Campus": "Main",
+          "Departments": "Design, Film, Fine Arts, Music, Performing Arts, Transdisciplinary Studies",
+          "Easting (LV95)": 2685200.00,
+          "Northing (LV95)": 1249000.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2685200.00, 1249000.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "Scuola universitaria professionale della Svizzera italiana (SUPSI)",
+          "Type": "University of Applied Sciences",
+          "Campus": "Main",
+          "Departments": "Construction and Design, Business and Social Sciences, Health, Music, Informatics, Engineering and Information Technology",
+          "Easting (LV95)": 2727000.00,
+          "Northing (LV95)": 1098000.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2727000.00, 1098000.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "Pedagogic University of Zurich (PHZH)",
+          "Type": "Pedagogic University",
+          "Campus": "Main",
+          "Departments": "Early Childhood Education, Primary Education, Secondary Education I and II, Special Education",
+          "Easting (LV95)": 2684100.00,
+          "Northing (LV95)": 1247600.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2684100.00, 1247600.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Teacher Education Bern (PHBern)",
+          "Type": "Pedagogic University",
+          "Campus": "Main",
+          "Departments": "Pre-Primary and Primary Education, Secondary Education I, Special Needs Education",
+          "Easting (LV95)": 2600400.00,
+          "Northing (LV95)": 1200300.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2600400.00, 1200300.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Teacher Education Lucerne (PHLU)",
+          "Type": "Pedagogic University",
+          "Campus": "Main",
+          "Departments": "Primary Education, Secondary Education I, Special Education",
+          "Easting (LV95)": 2670500.00,
+          "Northing (LV95)": 1210200.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2670500.00, 1210200.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Teacher Education St. Gallen (PHSG)",
+          "Type": "Pedagogic University",
+          "Campus": "Main",
+          "Departments": "Kindergarten and Primary Education, Secondary Education I",
+          "Easting (LV95)": 2743400.00,
+          "Northing (LV95)": 1244700.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2743400.00, 1244700.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Teacher Education Thurgau (PHTG)",
+          "Type": "Pedagogic University",
+          "Campus": "Main",
+          "Departments": "Early Childhood Education, Primary Education, Secondary Education I",
+          "Easting (LV95)": 2751400.00,
+          "Northing (LV95)": 1245200.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2751400.00, 1245200.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Teacher Education Valais (HEP-VS)",
+          "Type": "Pedagogic University",
+          "Campus": "Main",
+          "Departments": "Primary Education, Secondary Education I, Special Education",
+          "Easting (LV95)": 2605200.00,
+          "Northing (LV95)": 1125600.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2605200.00, 1125600.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Teacher Education Fribourg (HEP-FR)",
+          "Type": "Pedagogic University",
+          "Campus": "Main",
+          "Departments": "Primary Education, Secondary Education I, Special Education",
+          "Easting (LV95)": 2575500.00,
+          "Northing (LV95)": 1166000.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2575500.00, 1166000.00]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "University": "University of Teacher Education Lausanne (HEP-VD)",
+          "Type": "Pedagogic University",
+          "Campus": "Main",
+          "Departments": "Primary Education, Secondary Education I, Special Education",
+          "Easting (LV95)": 2537100.00,
+          "Northing (LV95)": 1151400.00
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2537100.00, 1151400.00]
+        }
+      }
+    ]
+  }
+  
