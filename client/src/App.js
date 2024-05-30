@@ -1,28 +1,18 @@
 import './App.css';
-import React from 'react'
-import { useState } from 'react'
-import MapWrapper from './components/MapWrapper.jsx'
-import FeatureTable from './components/FeatureTable.jsx'
+import React, { useState, useRef } from 'react';
+import MapWrapper from './components/MapWrapper.jsx';
 
 function App() {
   const [features, setFeatures] = useState([]);
-  const [selectedFeatureID, setSelectedFeatureID] = useState();
+  const [bbox, setBbox] = useState('838667,5997631,909982,6036843'); // Default bounding box
+  const [zoom, setZoom] = useState(12); // Default zoom level
+  const mapRef = useRef(); // Ref to access map instance
+
   return (
-    <>
-      <h1>
-        <a href="https://openlayers.org/">
-          <img src='./OpenLayers_logo.svg' className="logo" alt="OpenLayers logo" />
-        </a>OpenLayers
-        &
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src='./react.svg' className="logo" alt="React logo" />
-        </a>React
-      </h1>
-      <div id='content'>
-        <MapWrapper features={features} setFeatures={setFeatures} selectedFeatureID={selectedFeatureID} setSelectedFeatureID={setSelectedFeatureID} />
-        <FeatureTable features={features} setFeatures={setFeatures} selectedFeatureID={selectedFeatureID} setSelectedFeatureID={setSelectedFeatureID} />
-      </div>
-    </>
-  )
+    <div className="App">
+      <MapWrapper ref={mapRef} features={features} />
+    </div>
+  );
 }
-export default App
+
+export default App;

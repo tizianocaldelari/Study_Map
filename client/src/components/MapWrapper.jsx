@@ -1,113 +1,99 @@
-import { useState, useEffect, useRef } from 'react';
-import Map from 'ol/Map'
-import View from 'ol/View'
-import GeoJSON from 'ol/format/GeoJSON';
-import 'ol/ol.css';
-import Select from 'ol/interaction/Select';
-import { click } from 'ol/events/condition'
-import VectorLayer from 'ol/layer/Vector'
-import VectorSource from 'ol/source/Vector'
+import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
+import Map from 'ol/Map';
+import View from 'ol/View';
+import TileLayer from 'ol/layer/Tile';
+import OSM from 'ol/source/OSM';
+import TileWMS from 'ol/source/TileWMS';
+import { defaults as defaultControls } from 'ol/control.js';
+import './MapWrapper.css'; // Import the CSS file
 
-function MapWrapper({ features, setFeatures, selectedFeatureID, setSelectedFeatureID }) {
-    // set intial state
-    const [featureLayer, setFeatureLayer] = useState()
-    const [selectInteraction, setSelectInteraction] = useState()
+const MapWrapper = forwardRef((props, ref) => {
+    const [map, setMap] = useState();
+    const [backgroundMap, setBackgroundMap] = useState('Landeskarte-farbe');
+    const mapElement = useRef();
+    const mapRef = useRef();
+    mapRef.current = map;
 
-    // create state ref that can be accessed in callbacks
-    const mapRef = useRef()
-
-    // initialize map on first render
     useEffect(() => {
-        // if map already initialised, exit function
-        if (mapRef.current) return
-        let initFeatureLayer = new VectorLayer({
-            source: new VectorSource({
-                format: new GeoJSON(),
-                url: '/countries.geojson'
+        const initialMap = new Map({
+            target: mapElement.current,
+            layers: [getBackgroundLayer()],
+            view: new View({
+                projection: 'EPSG:3857',
+                center: [919705.97978, 5923388.48616],
+                zoom: 1,
+                maxZoom: 20,
+                minZoom: getMinZoom(),
+                extent: getBackgroundExtent(),
             }),
-        })
-        setFeatureLayer(initFeatureLayer)
-        mapRef.current = new Map({
-            target: 'map',
-            layers: [initFeatureLayer],
-            view: new View({ projection: 'EPSG:3857', center: [0, 0], zoom: 4 })
-        })
-        initFeatureLayer.getSource().on('featuresloadend', (evt) => {
-            setFeatures(evt.target.getFeatures())
-        })
-        // add interaction, specify "click" instead of default "singleclick" because
-        // the latter introduces 250ms delay to check for doubleclick
-        const select = new Select({ condition: click });
-        select.on('select', function (e) {
-            if (e.selected.length) {
-                setSelectedFeatureID(e.selected[0].getId())
-            } else setSelectedFeatureID()
+            controls: defaultControls({
+                attributionOptions: { collapsible: false },
+            }),
         });
-        mapRef.current.addInteraction(select);
-        setSelectInteraction(select);
-    }, [setFeatures, setSelectedFeatureID])
 
-    // update featureLayer if features prop changes
-    useEffect(() => {
-        // featureLayer may not be initialised yet
-        if (featureLayer && features?.length) {
-            // fit map to feature extent (with 100px of padding)
-            mapRef.current.getView().fit(featureLayer.getSource().getExtent(), {
-                padding: [100, 100, 100, 100]
-            })
-        }
-    }, [features, featureLayer])
+        setMap(initialMap);
 
-    // set selected feature on map
-    useEffect(() => {
-        // check for initialisation
-        if (selectInteraction && featureLayer) {
-            selectInteraction.getFeatures().clear();
-            // get selected feature
-            const selectedFeature = featureLayer
-                .getSource()
-                .getFeatures()
-                .filter(f => f.getId() === selectedFeatureID)[0];
-            if (selectedFeature) {
-                selectInteraction.getFeatures().push(selectedFeature);
-                mapRef.current.getView().fit(selectedFeature.getGeometry(), {
-                    padding: [100, 100, 100, 100], duration: 1000
-                })
+        return () => {
+            if (initialMap) {
+                initialMap.setTarget(null);
             }
+        };
+    }, []);
+
+    const getMinZoom = () => {
+        const desktopMinZoom = 8.3;
+        const mobileMinZoom = 7.5;
+        return window.matchMedia('(max-width: 1080px)').matches ? mobileMinZoom : desktopMinZoom;
+    };
+
+    const getBackgroundLayer = () => {
+        switch (backgroundMap) {
+            case 'Landeskarte-farbe':
+                return new TileLayer({
+                    source: new TileWMS({
+                        url: 'https://wms.geo.admin.ch/',
+                        crossOrigin: 'anonymous',
+                        attributions: '© <a href="http://www.geo.admin.ch/internet/geoportal/en/home.html">SWISSIMAGE / geo.admin.ch</a>',
+                        projection: 'EPSG:3857',
+                        params: {
+                            'LAYERS': getLayerName(backgroundMap),
+                            'FORMAT': 'image/jpeg'
+                        },
+                    })
+                });
+            default:
+                return new TileLayer({ source: new OSM() });
         }
-    }, [selectInteraction, selectedFeatureID, featureLayer])
+    };
 
-    return (<div id='map' style={{ flex: '2 1 600px', margin: '1em', height: '70vh' }} className="map-container"></div>)
-}
+    const getLayerName = (mapType) => {
+        switch (mapType) {
+            case 'Landeskarte-farbe':
+                return 'ch.swisstopo.pixelkarte-farbe';
+        }
+    };
 
-export default MapWrapper
+    const getBackgroundExtent = () => {
+        return [506943.5, 5652213.5, 1301728.5, 6191092];
+    };
 
-/*
-  // Tile Layers
-  var osmsource = new OSM();
-  var osmlayer = new TileLayer({
-    source: osmsource
-  })
-  // Google Maps Terrain
-  var tileLayerGoogle = new TileLayer({
-    source: new XYZ({ url: 'http://mt0.google.com/vt/lyrs=p&hl=en&x={x}&y={y}&z={z}', })
-  })
-  //Laden des WMTS von geo.admin.ch > Hintergrungkarte in der Applikation
-  var swisstopoWMTSLayer = 'ch.swisstopo.pixelkarte-grau'; // Swisstopo WMTS Layername
+    useImperativeHandle(ref, () => ({
+        getMap: () => mapRef.current
+    }));
 
-  var wmtsLayer = new TileLayer({
-    //extent: extent,
-    source: new TileWMS({
-      url: 'https://wms.geo.admin.ch/',
-      crossOrigin: 'anonymous',
-      attributions: '© <a href="http://www.geo.admin.ch/internet/geoportal/' +
-        'en/home.html">SWISSIMAGE / geo.admin.ch</a>',
-      projection: 'EPSG:3857',
-      params: {
-        'LAYERS': swisstopoWMTSLayer,
-        'FORMAT': 'image/jpeg'
-      },
-      // serverType: 'mapserver'
-    })
-  });
-*/
+    useEffect(() => {
+        if (map) {
+            const layers = map.getLayers().getArray();
+            layers[0] = getBackgroundLayer();
+            map.render();
+        }
+    }, [backgroundMap, map]);
+
+    return (
+        <div className="container">
+            <div ref={mapElement} className="map-container"></div>
+        </div>
+    );
+});
+
+export default MapWrapper;
