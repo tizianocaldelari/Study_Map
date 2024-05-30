@@ -58,7 +58,7 @@ const Searchbar = ({ onSearch }) => {
             <input
                 type="text"
                 id="search-input"
-                placeholder="Enter department"
+                placeholder="Enter a department"
                 value={inputValue}
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
