@@ -4,7 +4,7 @@ import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
 import TileWMS from 'ol/source/TileWMS';
-import { defaults as defaultControls } from 'ol/control.js';
+import { defaults as defaultControls, ScaleLine, FullScreen } from 'ol/control';
 import './MapWrapper.css';
 import Searchbar from './Searchbar';
 import * as olProj from 'ol/proj';
@@ -12,6 +12,7 @@ import * as olProj from 'ol/proj';
 const MapWrapper = forwardRef((props, ref) => {
     const [map, setMap] = useState();
     const [backgroundMap, setBackgroundMap] = useState('Landeskarte-farbe');
+    const [attributionVisible, setAttributionVisible] = useState(false); // Stato per la visibilità dell'attribution
     const mapElement = useRef();
     const mapRef = useRef();
     mapRef.current = map;
@@ -28,9 +29,10 @@ const MapWrapper = forwardRef((props, ref) => {
                 minZoom: getMinZoom(),
                 extent: getBackgroundExtent(),
             }),
-            controls: defaultControls({
-                attributionOptions: { collapsible: false },
-            }),
+            controls: defaultControls().extend([
+                new ScaleLine(),
+                new FullScreen(),
+            ]),
         });
 
         setMap(initialMap);
@@ -103,10 +105,20 @@ const MapWrapper = forwardRef((props, ref) => {
         }
     };
 
+    const toggleAttribution = () => {
+        setAttributionVisible(!attributionVisible);
+    };
+
     return (
         <div className="container">
             <Searchbar onSearch={handleSearch} />
             <div ref={mapElement} className="map-container"></div>
+            <button onClick={toggleAttribution} className="attribution-button">i</button>
+            {attributionVisible && (
+                <div className="attribution-content">
+                    © <a href="http://www.geo.admin.ch/internet/geoportal/en/home.html">SWISSIMAGE / geo.admin.ch</a>
+                </div>
+            )}
         </div>
     );
 });

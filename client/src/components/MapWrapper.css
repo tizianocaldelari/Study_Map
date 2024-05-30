@@ -1,16 +1,59 @@
-/* MapWrapper.css */
-
 .container {
     width: 100%;
     height: 100vh;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
   }
   
   .map-container {
     width: 100%;
     height: 100%;
+    position: relative;
     border: 1px solid #ccc;
+  }
+  
+  .ol-full-screen {
+    position: absolute;
+    left: 10px;
+    top: 20px;
+  }
+  
+  .ol-zoom {
+    position: absolute;
+    top: 50px;
+    left: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .ol-scale-line {
+    position: absolute;
+    left: 10px;
+    bottom: 20px;
+    width: 100px;
+    background-color: white;
+  }
+  
+  .ol-rotate {
+    position: absolute;
+    right: 10px;
+    top: 20px;
+  }
+  
+  .attribution-button {
+    position: absolute;
+    bottom: 20px;
+    right: 10px;
+    z-index: 1000;
+  }
+  
+  .attribution-content {
+    position: absolute;
+    bottom: 20px;
+    background-color: white;
+    padding: 5px;
+    z-index: 1000;
+    right: 35px;
   }
   

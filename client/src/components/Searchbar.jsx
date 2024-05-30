@@ -27,6 +27,8 @@ const Searchbar = ({ onSearch }) => {
     const handleSearch = (stop) => {
         if (stop) {
             onSearch(stop);
+            setFilteredStops([]);  // Clear the filtered stops list after a search
+            setInputValue('');  // Optionally clear the input field after a search
         }
     };
 
