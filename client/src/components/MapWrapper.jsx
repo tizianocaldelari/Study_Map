@@ -5,7 +5,9 @@ import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
 import TileWMS from 'ol/source/TileWMS';
 import { defaults as defaultControls } from 'ol/control.js';
-import './MapWrapper.css'; // Import the CSS file
+import './MapWrapper.css';
+import Searchbar from './Searchbar';
+import * as olProj from 'ol/proj';
 
 const MapWrapper = forwardRef((props, ref) => {
     const [map, setMap] = useState();
@@ -89,8 +91,21 @@ const MapWrapper = forwardRef((props, ref) => {
         }
     }, [backgroundMap, map]);
 
+    const handleSearch = (stop) => {
+        if (stop) {
+            const view = map.getView();
+            const lonLat = [stop.lon, stop.lat];
+            const transformedCoords = olProj.fromLonLat(lonLat, 'EPSG:3857');
+            view.setCenter(transformedCoords);
+            view.setZoom(16);
+        } else {
+            alert('Stop not found.');
+        }
+    };
+
     return (
         <div className="container">
+            <Searchbar onSearch={handleSearch} />
             <div ref={mapElement} className="map-container"></div>
         </div>
     );
