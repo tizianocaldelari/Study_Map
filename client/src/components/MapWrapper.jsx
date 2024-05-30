@@ -21,6 +21,7 @@ const MapWrapper = forwardRef((props, ref) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedFeature, setSelectedFeature] = useState(null);
     const mapElement = useRef();
+    const overlayElement = useRef();
     const mapRef = useRef();
     mapRef.current = map;
 
@@ -77,7 +78,8 @@ const MapWrapper = forwardRef((props, ref) => {
                             'FORMAT': 'image/jpeg'
                         },
                     }),
-                    zIndex: 0
+                    zIndex: 0,
+                    opacity: 0.5,
                 });
             default:
                 return new TileLayer({ source: new OSM(), zIndex: 0 });
@@ -96,9 +98,8 @@ const MapWrapper = forwardRef((props, ref) => {
     };
 
     const addMarkers = (features) => {
-        if (!map) return; // Ensure the map is initialized
+        if (!map) return;
 
-        // Rimuove i layer esistenti per evitare sovrapposizioni
         map.getLayers().getArray().slice(1).forEach(layer => map.removeLayer(layer));
 
         const vectorSource = new VectorSource();
@@ -117,7 +118,8 @@ const MapWrapper = forwardRef((props, ref) => {
                 image: new CircleStyle({
                     radius: 7,
                     fill: new Fill({ color: 'rgb(50, 140, 255)' }),
-                    stroke: new Stroke({ color: 'rgb(100, 0, 200)', width: 3 })
+                    stroke: new Stroke({ color: 'rgb(100, 0, 200)', width: 3 }),
+                    zIndex: 1000
                 })
             }));
 
@@ -126,7 +128,7 @@ const MapWrapper = forwardRef((props, ref) => {
 
         const vectorLayer = new VectorLayer({
             source: vectorSource,
-            zIndex: 1
+            zIndex: 2
         });
 
         map.addLayer(vectorLayer);
@@ -211,7 +213,7 @@ const MapWrapper = forwardRef((props, ref) => {
                 onRequestClose={closeModal}
                 contentLabel="Feature Details"
                 className="modal"
-                overlayClassName="overlay"
+                overlayClassName="modal-overlay"
             >
                 {renderFeatureDetails()}
             </Modal>
