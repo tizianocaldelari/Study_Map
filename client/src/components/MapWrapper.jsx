@@ -5,6 +5,7 @@ import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
 import TileWMS from 'ol/source/TileWMS';
 import { defaults as defaultControls, ScaleLine, FullScreen } from 'ol/control';
+import 'ol/ol.css';
 import './MapWrapper.css';
 import Searchbar from './Searchbar';
 import { Feature } from 'ol';
@@ -13,6 +14,13 @@ import { Vector as VectorLayer } from 'ol/layer';
 import { Vector as VectorSource } from 'ol/source';
 import { Style, Circle as CircleStyle, Fill, Stroke } from 'ol/style';
 import Modal from 'react-modal';
+import proj4 from 'proj4';
+import { register } from 'ol/proj/proj4';
+import { fromLonLat, toLonLat, transform } from 'ol/proj';
+
+// Register EPSG:2056
+proj4.defs('EPSG:2056', '+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs');
+register(proj4);
 
 const MapWrapper = forwardRef((props, ref) => {
     const [map, setMap] = useState();
@@ -30,8 +38,8 @@ const MapWrapper = forwardRef((props, ref) => {
             target: mapElement.current,
             layers: [getBackgroundLayer()],
             view: new View({
-                projection: 'EPSG:3857',
-                center: [919705.97978, 5923388.48616],
+                projection: 'EPSG:2056',
+                center: [2600000, 1200000],
                 zoom: 8,
                 maxZoom: 20,
                 minZoom: getMinZoom(),
@@ -72,7 +80,7 @@ const MapWrapper = forwardRef((props, ref) => {
                         url: 'https://wms.geo.admin.ch/',
                         crossOrigin: 'anonymous',
                         attributions: '© <a href="http://www.geo.admin.ch/internet/geoportal/en/home.html">SWISSIMAGE / geo.admin.ch</a>',
-                        projection: 'EPSG:3857',
+                        projection: 'EPSG:2056',
                         params: {
                             'LAYERS': getLayerName(backgroundMap),
                             'FORMAT': 'image/jpeg'
@@ -94,7 +102,7 @@ const MapWrapper = forwardRef((props, ref) => {
     };
 
     const getBackgroundExtent = () => {
-        return [506943.5, 5652213.5, 1301728.5, 6191092];
+        return [2420000, 1030000, 2900000, 1350000];
     };
 
     const addMarkers = (features) => {
