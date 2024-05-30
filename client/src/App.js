@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Searchbar from './Searchbar';
+import Searchbar from './components/Searchbar';
 import MapComponent from './components/MapWrapper.jsx';
 
 const App = () => {

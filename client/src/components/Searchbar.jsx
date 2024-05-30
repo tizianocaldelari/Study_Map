@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Searchbar.css';
 import SearchIcon from '@mui/icons-material/Search';
-import geojsonData from 'server/app/Study_Map.geojson'; // Adjust the path as necessary
+import geojsonData from './Study_Map.geojson'; 
 
 const Searchbar = ({ onSearch }) => {
     const [inputValue, setInputValue] = useState('');
@@ -11,7 +11,7 @@ const Searchbar = ({ onSearch }) => {
 
     useEffect(() => {
         // Fetch GeoJSON data
-        fetch('/mnt/data/Study_Map.geojson')
+        fetch('./Study_Map.geojson')
             .then(response => response.json())
             .then(data => {
                 setGeojson(data);
@@ -35,7 +35,7 @@ const Searchbar = ({ onSearch }) => {
     const handleSearch = (stop) => {
         if (stop) {
             onSearch(stop);
-            setFilteredStops([]);  // Clear the filtered stops list after a search
+            setFilteredDepartments([]);  // Clear the filtered stops list after a search
             setInputValue('');  // Optionally clear the input field after a search
 
         }

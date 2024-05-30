@@ -57,3 +57,6 @@
     right: 35px;
   }
   
+  .ol-attribution.ol-attribution {
+    display: none; 
+}
