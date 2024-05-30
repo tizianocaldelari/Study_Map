@@ -1,18 +1,20 @@
-import './App.css';
-import React, { useState, useRef } from 'react';
-import MapWrapper from './components/MapWrapper.jsx';
+import React, { useState } from 'react';
+import Searchbar from './Searchbar';
+import MapComponent from './components/MapWrapper.jsx';
 
-function App() {
-  const [features, setFeatures] = useState([]);
-  const [bbox, setBbox] = useState('838667,5997631,909982,6036843'); // Default bounding box
-  const [zoom, setZoom] = useState(12); // Default zoom level
-  const mapRef = useRef(); // Ref to access map instance
+const App = () => {
+  const [filteredData, setFilteredData] = useState([]);
+
+  const handleSearch = (results) => {
+    setFilteredData(results);
+  };
 
   return (
-    <div className="App">
-      <MapWrapper ref={mapRef} features={features} />
+    <div>
+      <Searchbar onSearch={handleSearch} />
+      <MapComponent data={filteredData} />
     </div>
   );
-}
+};
 
 export default App;

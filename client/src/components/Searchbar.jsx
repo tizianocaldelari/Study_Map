@@ -1,40 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import './Searchbar.css';
 import SearchIcon from '@mui/icons-material/Search';
+import geojsonData from 'server/app/Study_Map.geojson'; // Adjust the path as necessary
 
 const Searchbar = ({ onSearch }) => {
     const [inputValue, setInputValue] = useState('');
-    const [stops, setStops] = useState([]);
-    const [filteredStops, setFilteredStops] = useState([]);
+    const [departments, setDepartments] = useState([]);
+    const [filteredDepartments, setFilteredDepartments] = useState([]);
+    const [geojson, setGeojson] = useState({ type: "FeatureCollection", features: [] });
 
     useEffect(() => {
-        // Fetch or set stops data
-        setStops([
-            { name: 'Stop 1', lon: 8.5417, lat: 47.3769 },
-            { name: 'Stop 2', lon: 8.5480, lat: 47.3776 },
-            // Add more stops as needed
-        ]);
+        // Fetch GeoJSON data
+        fetch('/mnt/data/Study_Map.geojson')
+            .then(response => response.json())
+            .then(data => {
+                setGeojson(data);
+                const uniqueDepartments = Array.from(
+                    new Set(data.features.map(feature => feature.properties.department))
+                );
+                setDepartments(uniqueDepartments);
+            })
+            .catch(error => console.error('Error loading GeoJSON data:', error));
     }, []);
 
     const handleInputChange = (event) => {
         const value = event.target.value;
         setInputValue(value);
-        setFilteredStops(
-            stops.filter(stop => stop.name.toLowerCase().includes(value.toLowerCase()))
+        setFilteredDepartments(
+            departments.filter(dept => dept.toLowerCase().includes(value.toLowerCase()))
         );
     };
+
 
     const handleSearch = (stop) => {
         if (stop) {
             onSearch(stop);
             setFilteredStops([]);  // Clear the filtered stops list after a search
             setInputValue('');  // Optionally clear the input field after a search
+
         }
     };
 
     const handleKeyDown = (event) => {
-        if (event.key === 'Enter' && filteredStops.length > 0) {
-            handleSearch(filteredStops[0]);
+        if (event.key === 'Enter' && filteredDepartments.length > 0) {
+            handleSearch(filteredDepartments[0]);
         }
     };
 
@@ -43,18 +52,18 @@ const Searchbar = ({ onSearch }) => {
             <input
                 type="text"
                 id="search-input"
-                placeholder="Suchbegriff eingeben"
+                placeholder="Enter department"
                 value={inputValue}
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
-                autoComplete="off" // Disable browser autocomplete
+                autoComplete="off"
             />
             <SearchIcon className="search-icon" />
-            {filteredStops.length > 0 && (
+            {filteredDepartments.length > 0 && (
                 <ul className="autocomplete-dropdown">
-                    {filteredStops.map((stop, index) => (
-                        <li key={index} onClick={() => handleSearch(stop)}>
-                            {stop.name}
+                    {filteredDepartments.map((dept, index) => (
+                        <li key={index} onClick={() => handleSearch(dept)}>
+                            {dept}
                         </li>
                     ))}
                 </ul>
