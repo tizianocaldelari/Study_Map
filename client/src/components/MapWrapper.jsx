@@ -176,6 +176,26 @@ const MapWrapper = forwardRef((props, ref) => {
         setModalIsOpen(false);
     };
 
+    const renderFeatureDetails = () => {
+        if (!selectedFeature) return null;
+        return (
+            <div>
+                <h2>Feature Details</h2>
+                <ul>
+                    {Object.keys(selectedFeature).map((key, index) => {
+                        const value = selectedFeature[key];
+                        return (
+                            <li key={index}>
+                                <strong>{key}:</strong> {typeof value === 'object' ? JSON.stringify(value) : value}
+                            </li>
+                        );
+                    })}
+                </ul>
+                <button onClick={closeModal}>Close</button>
+            </div>
+        );
+    };
+
     return (
         <div className="container">
             <Searchbar onSearch={handleSearch} />
@@ -193,17 +213,7 @@ const MapWrapper = forwardRef((props, ref) => {
                 className="modal"
                 overlayClassName="overlay"
             >
-                {selectedFeature && (
-                    <div>
-                        <h2>Feature Details</h2>
-                        <ul>
-                            {Object.keys(selectedFeature).map((key, index) => (
-                                <li key={index}><strong>{key}:</strong> {selectedFeature[key]}</li>
-                            ))}
-                        </ul>
-                        <button onClick={closeModal}>Close</button>
-                    </div>
-                )}
+                {renderFeatureDetails()}
             </Modal>
         </div>
     );
