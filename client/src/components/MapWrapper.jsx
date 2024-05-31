@@ -22,6 +22,8 @@ import { fromLonLat, toLonLat, transform } from 'ol/proj';
 proj4.defs('EPSG:2056', '+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs');
 register(proj4);
 
+Modal.setAppElement('#root'); // Aggiungi questa linea
+
 const MapWrapper = forwardRef((props, ref) => {
     const [map, setMap] = useState();
     const [backgroundMap, setBackgroundMap] = useState('Landeskarte-farbe');
@@ -114,12 +116,11 @@ const MapWrapper = forwardRef((props, ref) => {
 
         features.forEach(feature => {
             const coordinates = feature.geometry.coordinates;
-            const { University, Campus } = feature.properties;
+            const properties = feature.properties; // Get all properties
 
             const marker = new Feature({
                 geometry: new Point(coordinates),
-                name: University,
-                campus: Campus,
+                ...properties // Spread all properties into the feature
             });
 
             marker.setStyle(new Style({
@@ -188,18 +189,22 @@ const MapWrapper = forwardRef((props, ref) => {
 
     const renderFeatureDetails = () => {
         if (!selectedFeature) return null;
+        console.log('Selected feature:', selectedFeature); // Debug: Log selected feature to verify attributes
+    
         return (
             <div>
-                <h2>Feature Details</h2>
+                <h2>{selectedFeature.University}</h2>
                 <ul>
-                    {Object.keys(selectedFeature).map((key, index) => {
-                        const value = selectedFeature[key];
-                        return (
-                            <li key={index}>
-                                <strong>{key}:</strong> {typeof value === 'object' ? JSON.stringify(value) : value}
-                            </li>
-                        );
-                    })}
+                    <li><strong>Type:</strong> {selectedFeature.Type}</li>
+                    <li><strong>Campus:</strong> {selectedFeature.Campus}</li>
+                    <li><strong>Departments:</strong> {selectedFeature.Departments}</li>
+                    {selectedFeature.Link && (
+                        <li>
+                            <a href={selectedFeature.Link} target="_blank" rel="noopener noreferrer">
+                                <strong>To the webpage</strong>
+                            </a>
+                        </li>
+                    )}
                 </ul>
                 <button onClick={closeModal}>Close</button>
             </div>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import Searchbar from './components/Searchbar';
 import MapComponent from './components/MapWrapper.jsx';
+import { Helmet } from 'react-helmet';
+import Header from './components/Header';
 
 const App = () => {
   const [filteredData, setFilteredData] = useState([]);
@@ -11,7 +12,10 @@ const App = () => {
 
   return (
     <div>
-      <Searchbar onSearch={handleSearch} />
+      <Helmet>
+      <title>Study Map</title>
+      </Helmet>
+      <Header />
       <MapComponent data={filteredData} />
     </div>
   );

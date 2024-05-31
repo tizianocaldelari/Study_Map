@@ -3,12 +3,6 @@ body, html {
     margin: 0;
 }
 
-.map-container {
-    height: 100%;
-    width: 100%;
-    position: relative;
-}
-
 .searchbar-container {
     position: absolute;
     top: 20px;
@@ -42,18 +36,7 @@ body, html {
     font-size: 24px;
 }
 
-@media (max-width: 400px) {
-    #search-input {
-        font-size: 14px;
-        padding: 10px 14px;
-        border-radius: 30px;
-    }
-    
-    .searchbar-container {
-        max-width: 70%;
-        border-radius: 30px;
-    }
-}
+
 
 .autocomplete-dropdown {
     position: absolute;

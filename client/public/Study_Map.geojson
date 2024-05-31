@@ -15,6 +15,7 @@
           "Type": "University",
           "Campus": "Main",
           "Departments": "Architecture, Civil, Environmental and Geomatic Engineering, Mechanical and Process Engineering, Information Technology and Electrical Engineering, Computer Science, Materials, Physics, Chemistry and Applied Biosciences, Biology, Mathematics, Management, Technology, and Economics, Humanities, Social and Political Sciences, Earth Sciences, Health Sciences and Technology",
+          "Links": "https://www.fhnw.ch/de/studium/lifesciences/bachelor/ja-hier?gad_source=1&gclid=Cj0KCQjw6uWyBhD1ARIsAIMcADqvLXicewkAG3Z53LG9zn0rzJY9har4ENCh6fH-x0hVBJNAPXSNldkaAsvcEALw_wcB",
           "Easting (LV95)": 2683196.17,
           "Northing (LV95)": 1247911.63
         },
@@ -449,7 +450,7 @@
           "University": "University of Applied Sciences and Arts Northwestern Switzerland (FHNW)",
           "Type": "University of Applied Sciences",
           "Campus": "Main",
-          "Departments": "Applied Psychology, Architecture, Civil Engineering, and Geomatics, Art and Design, Business, Education, Engineering, Life Sciences, Music, Social Work",
+          "Departments": "Applied Psychology, Architecture, Civil Engineering, Art and Design, Business, Education, Engineering, Life Sciences, Music, Social Work",
           "Easting (LV95)": 2630500.00,
           "Northing (LV95)": 1255100.00
         },
@@ -470,7 +471,7 @@
         },
         "geometry": {
           "type": "Point",
-          "coordinates": [2630900.00, 1255200.00]
+          "coordinates": [2615315.00, 1264924.30]
         }
       },
       {
@@ -509,7 +510,7 @@
           "University": "University of Applied Sciences and Arts Northwestern Switzerland (FHNW)",
           "Type": "University of Applied Sciences",
           "Campus": "Aarau",
-          "Departments": "Architecture, Civil Engineering, and Geomatics",
+          "Departments": "Architecture, Civil Engineering",
           "Easting (LV95)": 2632100.00,
           "Northing (LV95)": 1255500.00
         },
