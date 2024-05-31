@@ -11,7 +11,7 @@
 .container {
   position: relative;
   width: 100%;
-  height: 89vh;
+  height: 84vh;
   display: flex;
   flex-direction: column;
 }
@@ -96,26 +96,21 @@
 
 /* Header Styles */
 .header-container {
-  width: 100%;
-  background-color: #2e2e2e;
-  color: #ffffff;
-  height: 100px;
   display: flex;
-  vertical-align: middle;
+  justify-content: center;
+  align-items: center;
+  height: 15vh; /* Ensure the header takes up the full viewport height */
+  text-align: center;
+  background-color: #2e2e2e;
 }
 
 .header-content {
-  margin: 0 auto;
-  vertical-align: middle;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .header-title {
-  margin: 0;
-  font-size: 50px;
-  font-weight: bold;
+  font-size: 3rem; /* Adjust as needed */
   color: #ffffff;
-  text-transform: uppercase;
-  text-align: center;
-  align-items: center;
-  vertical-align: middle;
 }
