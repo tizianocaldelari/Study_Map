@@ -81,16 +81,17 @@
 /* Modal Styles */
 .modal {
   position: absolute;
-  top: 10%;
+  top: 20%;
   left: 50%;
   transform: translate(-50%, 0);
   width: 50%;
   height: 50%;
-  background: white;
+  background: rgb(241, 241, 241);
   padding: 20px;
-  border: 1px solid #ccc;
+  border: 1px solid #474747;
   overflow: auto;
   z-index: 1000;
+  border-radius: 5px;
 }
 
 /* Header Styles */
