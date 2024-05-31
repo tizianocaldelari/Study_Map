@@ -15,7 +15,6 @@
           "Type": "University",
           "Campus": "Main",
           "Departments": "Architecture, Civil, Environmental and Geomatic Engineering, Mechanical and Process Engineering, Information Technology and Electrical Engineering, Computer Science, Materials, Physics, Chemistry and Applied Biosciences, Biology, Mathematics, Management, Technology, and Economics, Humanities, Social and Political Sciences, Earth Sciences, Health Sciences and Technology",
-          "Links": "https://www.fhnw.ch/de/studium/lifesciences/bachelor/ja-hier?gad_source=1&gclid=Cj0KCQjw6uWyBhD1ARIsAIMcADqvLXicewkAG3Z53LG9zn0rzJY9har4ENCh6fH-x0hVBJNAPXSNldkaAsvcEALw_wcB",
           "Easting (LV95)": 2683196.17,
           "Northing (LV95)": 1247911.63
         },
@@ -465,7 +464,8 @@
           "University": "University of Applied Sciences and Arts Northwestern Switzerland (FHNW)",
           "Type": "University of Applied Sciences",
           "Campus": "Muttenz",
-          "Departments": "Life Sciences, Engineering, Management, Geomatics",
+          "Departments": "Life Sciences, Engineering, Management, Geomatics, Architecture",
+          "Links": "https://www.fhnw.ch/de/studium/lifesciences/bachelor/ja-hier?gad_source=1&gclid=Cj0KCQjw6uWyBhD1ARIsAIMcADqvLXicewkAG3Z53LG9zn0rzJY9har4ENCh6fH-x0hVBJNAPXSNldkaAsvcEALw_wcB",
           "Easting (LV95)": 2615315.00,
           "Northing (LV95)": 1264924.30
         },
