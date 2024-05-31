@@ -97,20 +97,25 @@
 /* Header Styles */
 .header-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  padding-left: 150px;
   height: 15vh; /* Ensure the header takes up the full viewport height */
-  text-align: center;
   background-color: #2e2e2e;
 }
 
 .header-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  left:150px;
 }
 
 .header-title {
   font-size: 3rem; /* Adjust as needed */
   color: #ffffff;
+}
+
+.header-logo {
+  height: 100px; /* Adjust the size as necessary */
+  left: 30px;
+  top: 10px;
+  position:absolute;
 }
